@@ -1,0 +1,85 @@
+
+/* 初始化样式 */
+body , h1 , h2 , h3 , h4 , h5 , h6 , p , ul , ol , dl , dd{
+    margin: 0;
+    padding: 0;
+}
+
+li{
+    list-style: none;
+}
+
+img{
+    /* 为了解决图片底边的边距问题 */
+    vertical-align: top;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+html{
+    font-family: "微软雅黑", "宋体" , Arial;
+   
+    line-height: 2;
+    color: #555;
+
+}
+
+.s1{
+     /* 强制不换行 */
+     white-space: nowrap;
+     overflow: hidden;
+     /* 文本超出出现省略号 */
+     text-overflow: ellipsis;
+}
+
+input , button{
+    padding: 0;
+    border: 0;
+}
+
+input , textarea , select , button {
+    /* 去掉点击时的外框 */
+    outline: none;
+
+    color: inherit;
+    font-family: inherit;
+}
+
+textarea {
+    /* 防止文本域被用户拉伸 */
+    resize: none;
+}
+
+
+
+.cl:after{
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+
+.s2{
+    /* 定义旧版弹性盒 */
+    display: -webkit-box;
+    /* 主轴方向为垂直方向 */
+    -webkit-box-orient: vertical;
+    /* 行数为2 */
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+html{
+    font-size: -webkit-calc(100vw / 7.5);
+}
+body{
+    font-size: .24rem;
+}

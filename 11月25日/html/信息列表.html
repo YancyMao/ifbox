@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <style>
+        .box {
+
+            margin: 0 auto;
+            width: 900px;
+            background-color: #3B99FF;
+            padding: 0 50px 50px;
+            box-sizing: border-box;
+        }
+
+        .box ul {
+            background-color: #fff;
+
+
+
+        }
+
+        .box ul li {
+            text-align: center;
+            box-sizing: border-box;
+            border: solid #000 1px;
+
+        }
+
+        .box .head li:nth-child(2) {
+            flex-grow: .7;
+        }
+
+        .box .head li:nth-child(5) {
+
+            flex-grow: 1;
+        }
+
+        .box .head li:nth-child(6) {
+            flex-grow: .5;
+        }
+
+        .box .head {
+            display: flex;
+        }
+
+        .box .head li {
+            width: 10%;
+        }
+
+        .box .list li {
+            position: relative;
+        }
+
+        .box .list {
+            position: relative;
+        }
+
+        .box .list .insert {
+            width: 50px;
+            height: 25px;
+            position: absolute;
+            bottom: -32px;
+            border: 1px #000 solid;
+            border-radius: 3px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            line-height: 25px;
+            background-color: #fff;
+            text-align: center;
+            z-index: 99;
+            cursor: pointer;
+            user-select: none;
+
+        }
+
+        .box .list li p {
+            margin-left: -2px;
+            box-sizing: border-box;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            position: absolute;
+            z-index: 9;
+            display: none;
+            background-color: #E6F3FF;
+        }
+
+        .box .list li p input {
+            text-align: center;
+            border: solid #000 1px;
+            width: 10%;
+            background-color: #E6F3FF;
+        }
+
+        .box .list li p input:nth-child(2) {
+            flex-grow: .7;
+        }
+
+        .box .list li p input:nth-child(5) {
+            flex-grow: 1;
+        }
+
+        .box .list li p span {
+            flex-grow: .5;
+            border: solid #000 1px;
+        }
+
+        .box .list li {
+            flex-wrap: wrap;
+            display: flex;
+        }
+
+        .box .list li span {
+            width: 10%;
+            flex-wrap: wrap;
+            text-align: center;
+            box-sizing: border-box;
+            border: solid #000 1px;
+        }
+
+        .box .list li span a {
+            cursor: pointer;
+        }
+
+        .box .list li span a:hover {
+
+            color: green;
+        }
+
+        .box .list li span:nth-child(2) {
+            flex-grow: .7;
+        }
+
+        .box .list li span:nth-child(5) {
+
+            flex-grow: 1;
+        }
+
+        .box .list li span:nth-child(6) {
+            flex-grow: .5;
+        }
+
+        .lg,
+        .nlg {
+            padding-top: 10px;
+            margin-bottom: 50px;
+            display: none;
+        }
+
+        .nlg-span {
+            color: green;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .escLg {
+            float: right;
+            color: green;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .search {
+            width: 200px;
+            height: 25px;
+            margin: 20px auto;
+            display: flex;
+        }
+
+        .search button {
+            flex-shrink: 0;
+            margin-left: 5px;
+            width: 60px;
+        }
+
+        .search input {
+            border: #000 solid 1px
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h3 class="lg">
+            欢迎你，<span class='lg-span'></span>
+            <span class="escLg">退出</span>
+        </h3>
+        <h3 class="nlg">
+            欢迎你，请&nbsp;<span class='nlg-span'>登录/注册</span>
+        </h3>
+        <div class="search">
+            <input type="text">
+            <button>搜索</button>
+        </div>
+        <ul class="head">
+            <li>
+                编号
+            </li>
+            <li>
+                名字
+            </li>
+            <li>
+                性别
+            </li>
+            <li>
+                年龄
+            </li>
+            <li>
+                电话
+            </li>
+            <li>
+                操作
+            </li>
+        </ul>
+        <ul class="list">
+            <div class="insert">+新增</div>
+        </ul>
+
+    </div>
+    <script src='../js/myTools.js'></script>
+    <script>
+        const localRe = localStorage.getItem('username');
+        console.log(localRe);
+        if (localRe) {
+
+            $('.lg').style.display = 'block';
+            $('.lg span').innerHTML = localRe
+
+        }
+        else {
+            $('.nlg').style.display = 'block';
+
+        }
+        $(' .escLg').onclick = () => {
+
+            localStorage.removeItem('username')
+            $('.lg').style.display = 'none';
+            $('.nlg').style.display = 'block';
+
+        }
+
+        $(' .nlg-span').onclick = () => {
+
+            location.href = './数据库登录注册.html'
+
+        }
+
+        //获取列表
+        ajax({
+            type: 'post',
+            path: '../php/dblist.php',
+            data: {
+                type: 'list'
+            },
+            dataType: 'json',
+            successCb: function (res) {
+
+                const {
+                    status,
+                    msg,
+                    info
+                } = res;
+                if (status) {
+                    let html = $('.list').innerHTML;
+                    let j = 0
+                    info.forEach((v) => {
+                        const {
+                            name,
+                            sex,
+                            age,
+                            phone,
+                            id
+
+                        } = v;
+                        html += `
+                            <li dbId=${id}>
+                            <span>
+                                ${++j}
+                            </span>
+                            <span>
+                                ${name}
+                            </span>
+                            <span>
+                                ${sex}
+                            </span>
+                            <span>
+                                ${age}
+                            </span>
+                            <span>
+                                ${phone}
+                            </span>
+                            <span>
+                               <a class='update'>修改</a>
+                               <a class='delete'>删除</a>
+                            </span>
+                            <p dbId=${id}>
+                                <input type="text" value=${j} disabled>
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <span>
+                               <a class='confirm'>确认</a>
+                               <a class='cancel'>取消</a>
+                                </span>
+                            </p>
+                            </li>
+                            `
+                    })
+                    $('.list').innerHTML = html;
+                    myAlert(msg)
+
+
+                }
+                else {
+                    myAlert(msg)
+                }
+
+            }
+        })
+        $('.list').onclick = function (e) {
+            const ev = e || event;
+            const tg = ev.target || ev.srcElement;
+
+            //点击修改
+            if (tg.className === 'update') {
+                tg.parentElement.parentElement.style.top = -999 + 'px';
+                tg.parentElement.nextElementSibling.style.display = 'flex';
+                tg.parentElement.nextElementSibling.style.top = 999 + 'px';
+                const oIpt1 = tg.parentElement.nextElementSibling.firstElementChild;
+                //名字输入框
+                oIpt1.nextElementSibling.value = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML.replace(/(^\s*)|(\s*$)/g, '');
+                //性别
+                oIpt1.nextElementSibling.nextElementSibling.value = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML.replace(/(^\s*)|(\s*$)/g, '');
+                //年龄
+                oIpt1.nextElementSibling.nextElementSibling.nextElementSibling.value = tg.parentElement.previousElementSibling.previousElementSibling.innerHTML.replace(/(^\s*)|(\s*$)/g, '');
+                //电话
+                oIpt1.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value = tg.parentElement.previousElementSibling.innerHTML.replace(/(^\s*)|(\s*$)/g, '');
+            }
+
+            //取消修改
+            if (tg.className === 'cancel') {
+                tg.parentElement.parentElement.parentElement.style.top = 0;
+                tg.parentElement.parentElement.style.display = 'none';
+            }
+
+            //确认修改
+            if (tg.className === 'confirm') {
+                const name = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                const sex = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                const age = tg.parentElement.previousElementSibling.previousElementSibling.value;
+                const phone = tg.parentElement.previousElementSibling.value;
+                const id = tg.parentElement.parentElement.getAttribute('dbId');
+                ajax({
+                    type: 'post',
+                    path: '../php/dblist.php',
+                    data: {
+                        name,
+                        sex,
+                        age,
+                        phone,
+                        id,
+                        type: 'update'
+                    },
+                    dataType: 'json',
+                    successCb: function (res) {
+                        const {
+                            status,
+                            msg
+                        } = res;
+                        if (status) {
+                            const oIpt2 = tg.parentElement.parentElement.firstElementChild;
+                            const oSpan2 = tg.parentElement.parentElement.parentElement.firstElementChild;
+                            oSpan2.nextElementSibling.innerHTML = oIpt2.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                        }
+                        tg.parentElement.parentElement.parentElement.style.top = 0;
+                        tg.parentElement.parentElement.style.display = 'none';
+                        myAlert(msg)
+                    }
+                })
+            }
+
+            //删除行
+            if (tg.className === 'delete') {
+                const id = tg.parentElement.parentElement.getAttribute('dbId')
+
+                ajax({
+                    type: 'post',
+                    path: '../php/dblist.php',
+                    data: {
+                        type: 'delete',
+                        id
+                    },
+                    dataType: 'json',
+                    successCb: function (res) {
+                        const {
+                            status,
+                            msg
+                        } = res;
+                        if (status) {
+                            tg.parentElement.parentElement.remove()
+                        }
+                        myAlert(msg);
+                    }
+                })
+
+
+            }
+
+
+            //插入
+            if (tg.className === 'insert') {
+                let oLi = document.createElement('li');
+                let j = $('.list').lastElementChild.firstElementChild.innerHTML * 1;
+                oLi.innerHTML = `
+                            <span>
+                                ${++j}
+                            </span>
+                            <span>
+                               
+                            </span>
+                            <span>
+                               
+                            </span>
+                            <span>
+                               
+                            </span>
+                            <span>
+                               
+                            </span>
+                            <span>
+                               <a class='update'>修改</a>
+                               <a class='delete'>删除</a>
+                            </span>
+                            <p>
+                                <input type="text" value=${j} disabled>
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <span>
+                               <a class='insert-confirm'>确认</a>
+                               <a class='insert-cancel'>取消</a>
+                                </span>
+                            </p>
+                            `
+                $('.list').appendChild(oLi);
+                $('.list').lastElementChild.style.top = -999 + 'px';
+                $('.list').lastElementChild.lastElementChild.style.display = 'flex';
+                $('.list').lastElementChild.lastElementChild.style.top = 999 + 'px';
+
+                $('.insert').style.display = 'none';
+
+
+            }
+
+            //新增确认
+            if (tg.className === 'insert-confirm') {
+                const name = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                const sex = tg.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.value;
+                const age = tg.parentElement.previousElementSibling.previousElementSibling.value;
+                const phone = tg.parentElement.previousElementSibling.value;
+                const id = tg.parentElement.parentElement.getAttribute('dbId');
+                ajax({
+                    type: 'post',
+                    path: '../php/dblist.php',
+                    data: {
+                        name,
+                        sex,
+                        age,
+                        phone,
+                        id,
+                        type: 'insert'
+                    },
+                    dataType: 'json',
+                    successCb: function (res) {
+                        const {
+                            status,
+                            msg,
+                            id
+                        } = res;
+                        if (status) {
+                            const oIpt2 = tg.parentElement.parentElement.firstElementChild;
+                            const oSpan2 = tg.parentElement.parentElement.parentElement.firstElementChild;
+                            oSpan2.nextElementSibling.innerHTML = oIpt2.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                            oSpan2.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML = oIpt2.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                            oIpt2.parentElement.setAttribute('dbId', id);
+                            oSpan2.parentElement.setAttribute('dbId', id);
+                            tg.parentElement.firstElementChild.className = 'confirm';
+                            tg.parentElement.lastElementChild.className = 'cancel';
+                            $('.insert').style.display = 'block';
+
+                        }
+                        tg.parentElement.parentElement.parentElement.style.top = 0;
+                        tg.parentElement.parentElement.style.display = 'none';
+                        myAlert(msg)
+                    }
+                })
+            }
+
+
+
+            if (tg.className === 'insert-cancel') {
+
+                tg.parentElement.parentElement.parentElement.remove();
+                $('.insert').style.display = 'block';
+
+
+            }
+        }
+
+        // $('.insert').onclick = function (e) {
+        //     e.stopPropagation();
+        //     let oLi = document.createElement('li');
+        //     let j =  $('.list').lastElementChild.firstElementChild.innerHTML*1;
+        //     oLi.innerHTML = `
+        //                     <span>
+        //                         ${++j}
+        //                     </span>
+        //                     <span>
+
+        //                     </span>
+        //                     <span>
+
+        //                     </span>
+        //                     <span>
+
+        //                     </span>
+        //                     <span>
+
+        //                     </span>
+        //                     <span>
+        //                        <a class='update'>修改</a>
+        //                        <a class='delete'>删除</a>
+        //                     </span>
+        //                     <p>
+        //                         <input type="text" value=${j} disabled>
+        //                         <input type="text">
+        //                         <input type="text">
+        //                         <input type="text">
+        //                         <input type="text">
+        //                         <span>
+        //                        <a class='insert-confirm'>确认</a>
+        //                        <a class='insert-cancel'>取消</a>
+        //                         </span>
+        //                     </p>
+        //                     `
+        //                     console.log(oLi);
+        //     $('.list').appendChild(oLi);
+
+        // }
+
+
+        $('.search button').onclick = function () {
+
+            keyword = $('.search input').value;
+            if(/^\s*$/.test(keyword)){
+                return;
+            }
+            ajax({
+                type: 'post',
+                path: '../php/dblist.php',
+                data: {
+                    type: 'search',
+                    keyword
+                },
+                dataType: 'json',
+                successCb: function (res) {
+
+                    const {
+                        status,
+                        msg,
+                        info
+                    } = res;
+                    if (status) {
+                        let html = '';
+                        let j = 0
+                        info.forEach((v) => {
+                            const {
+                                name,
+                                sex,
+                                age,
+                                phone,
+                                id
+
+                            } = v;
+                            html += `
+                            <li dbId=${id}>
+                            <span>
+                                ${++j}
+                            </span>
+                            <span>
+                                ${name}
+                            </span>
+                            <span>
+                                ${sex}
+                            </span>
+                            <span>
+                                ${age}
+                            </span>
+                            <span>
+                                ${phone}
+                            </span>
+                            <span>
+                               <a class='update'>修改</a>
+                               <a class='delete'>删除</a>
+                            </span>
+                            <p dbId=${id}>
+                                <input type="text" value=${j} disabled>
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <input type="text">
+                                <span>
+                               <a class='confirm'>确认</a>
+                               <a class='cancel'>取消</a>
+                                </span>
+                            </p>
+                            </li>
+                            `
+                        })
+                        $('.list').innerHTML = html;
+                        myAlert(msg)
+
+
+                    }
+                    else {
+                        myAlert(msg)
+                    }
+
+                }
+            })
+
+        }
+    </script>
+</body>
+
+</html>

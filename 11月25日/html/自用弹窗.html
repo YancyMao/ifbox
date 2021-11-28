@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+
+<body>
+    <script>
+    const myAlert = text => {
+        const oD = document.createElement('div');
+        const w = text.length*14;
+        oD.style.cssText=`
+            position: fixed;
+            width: ${w}px;
+            height: 20px;
+            padding: 10px 20px;
+            top: -50px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            background-color: #DBEF65;
+            border: 1px solid #dfdfdf;
+            display: block;
+            transition: .3s;
+            border-radius: 3px;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+            `
+            oD.innerHTML=text;
+            document.body.appendChild(oD);
+            setTimeout(
+            () => {
+                oD.style.top = 0;
+                setTimeout(
+                    () => {
+                        oD.style.top = - 50 + 'px';
+                        setTimeout(() => {
+                            oD.style.display = 'none';
+                        },
+                            1000)
+                    },
+                    1500
+                )
+            },
+            100
+        )
+    }
+
+
+    myAlert('少时诵诗书所所所所所所所')
+    </script>
+</body>
+
+</html>

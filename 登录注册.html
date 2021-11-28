@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <style>
+        .box {
+
+            margin: 100px auto;
+            width: 600px;
+            background-color: #dfdfdf;
+            padding: 50px 50px 50px;
+            box-sizing: border-box;
+        }
+
+        .box input {
+
+            border: #57DA65 solid 1px;
+
+        }
+
+        .box .n {
+            display: inline-block;
+            width: 40px;
+
+        }
+
+        .box .lg-btn {
+
+
+            margin-left: 100px;
+        }
+
+        .box .tip {
+
+
+            color: #f00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <p>
+            <span class="n">用户名:</span>
+            <input class="username" type="text">
+            <span class="tip1 tip"></span>
+        </p>
+        <p>
+            <span class="n">密码:</span>
+            <input class="passwd" type="text">
+            <span class="tip2 tip"></span>
+        </p>
+        <p>
+            <button class="lg-btn">登录</button>
+            <button class="rg-btn">注册</button>
+            <span class="tip3"></span>
+        </p>
+    </div>
+    <script src='../js/myTools.js'></script>
+    <script>
+
+        $('.lg-btn').onclick = function () {
+            $('.tip3').innerHTML = '';
+
+            ajax({
+                type: 'post',
+                path: '../php/login&register.php',
+                data: {
+                    username: $('.username').value,
+                    password: $('.passwd').value,
+                    type: 'login'
+
+                },
+                dataType: 'json',
+                successCb: function (res) {
+                    if (res.status) {
+                        myAlert(res.msg)
+                        localStorage.setItem('username', $('.username').value)
+                        setTimeout(
+                            () => {
+                                let url = location.search.split('history=')[1];
+
+                                if (url) {
+                                    url = decodeURIComponent(url)
+                                    location.href = url;
+                                } else {
+                                    location.href = './商品列表.html'
+                                }
+                            },
+                            1000
+                        )
+                    }
+                    else {
+                        myAlert(res.msg)
+                    }
+
+
+                }
+            })
+
+
+
+
+        }
+        $('.rg-btn').onclick = function () {
+            $('.tip3').innerHTML = '';
+
+            ajax({
+                type: 'post',
+                path: '../php/login&register.php',
+                data: {
+                    username: $('.username').value,
+                    password: $('.passwd').value,
+                    type: 'register'
+
+                },
+                dataType: 'json',
+                successCb: function (res) {
+                    if (res.status) {
+                        myAlert(res.msg)
+                    }
+                    else {
+                        myAlert(res.msg)
+                    }
+
+
+                }
+            })
+
+
+
+
+        }
+    </script>
+
+</body>
+
+</html>
